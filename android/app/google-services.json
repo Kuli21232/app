@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "474815857049",
+    "project_id": "motiva-app-ru",
+    "storage_bucket": "motiva-app-ru.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474815857049:android:e914d5d70f713bc5e35308",
+        "android_client_info": {
+          "package_name": "com.example.motiva"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474815857049-vq0c1euqbkl6sbd37kufn2lcshdso0ad.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.motiva",
+            "certificate_hash": "f71de5bb6d69519cde807dddea14628e81225b0d"
+          }
+        },
+        {
+          "client_id": "474815857049-v4mcdfpav9v78fmdu1a1fr2q36t3u8gt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzCQTSo5GGVA8cje26xpftezrQqRd2F3Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474815857049-v4mcdfpav9v78fmdu1a1fr2q36t3u8gt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "474815857049-cvld5jp0meihj9t2v1r8bfp9tqoithpc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.motiva"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
