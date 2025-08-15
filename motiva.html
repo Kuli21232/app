@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Motiva — твой трекер целей</title>
+  <meta name="description" content="Motiva — простой трекер целей и фокус-сессий. Скачай для Android и Windows с GitHub Releases." />
+  <meta property="og:title" content="Motiva — трекер целей" />
+  <meta property="og:description" content="Скачай для Android и Windows с GitHub Releases." />
+  <meta name="theme-color" content="#6f35ff" />
+  <style>
+    :root{
+      --bg: #0b0714;
+      --card: #100a1f;
+      --fg: #f7f2ff;
+      --muted: #cbb6ff;
+      --brand: #8b5cf6;     /* violet-500 */
+      --brand-2:#6d28d9;     /* violet-700 */
+      --brand-3:#b794f4;     /* violet-300 */
+      --accent:#a78bfa;      /* violet-400 */
+      --glass: rgba(255,255,255,.06);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 10px 40px rgba(123, 97, 255, .35);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --maxw: 1120px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--fg); background: radial-gradient(1200px 600px at 10% -10%, #2a1b57 0%, transparent 60%),
+                         radial-gradient(900px 500px at 110% 20%, #3b1e7d 0%, transparent 60%),
+                         linear-gradient(180deg, #0a0712, #0d0819 60%, #120a23);
+      overflow-x:hidden;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+    header{
+      position:sticky; top:0; z-index:40; backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(16,10,31,.7), rgba(16,10,31,.35) 60%, rgba(16,10,31,0));
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:20px; height:66px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px}
+    .logo{
+      width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+      background: conic-gradient(from 220deg, #a78bfa, #6d28d9, #8b5cf6, #c4b5fd, #a78bfa);
+      box-shadow: var(--shadow); position:relative; overflow:hidden;
+    }
+    .logo::after{content:""; position:absolute; inset:0; background:radial-gradient(400px 80px at 20% -30%, rgba(255,255,255,.6), transparent 60%);}
+    .nav a.btn{padding:10px 16px; border:1px solid var(--border); border-radius:12px; background:var(--glass); transition:.25s}
+    .nav a.btn:hover{transform: translateY(-2px); box-shadow: var(--shadow); border-color:transparent}
+    main{position:relative}
+    /* floating blobs */
+    .blob, .blob-2, .blob-3{
+      position:absolute; filter: blur(70px); opacity:.35; z-index:-1; mix-blend:screen; pointer-events:none;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .blob{width:520px; height:520px; background:#7c3aed; top: -120px; left:-140px}
+    .blob-2{width:420px; height:420px; background:#c4b5fd; right:-160px; top: 120px; animation-duration:22s}
+    .blob-3{width:360px; height:360px; background:#8b5cf6; left: 45%; top: 380px; animation-duration:26s}
+    @keyframes drift { from{transform:translateY(0) translateX(0) rotate(0)} to{transform:translateY(20px) translateX(20px) rotate(8deg)} }
+
+    /* hero */
+    .hero{padding:64px 0 28px}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center}
+    .h1{font-size: clamp(36px, 4.2vw, 60px); line-height:1.03; margin:0 0 12px; font-weight:900}
+    .subtitle{color:var(--muted); font-size: clamp(16px, 1.6vw, 18px); margin:0 0 26px}
+    .cta{display:flex; flex-wrap:wrap; gap:14px}
+    .btn-primary{
+      --g: linear-gradient(135deg, var(--brand), var(--brand-2));
+      padding:14px 18px; border-radius:14px; background:var(--g); border:0; color:white; font-weight:700;
+      display:inline-flex; align-items:center; gap:10px; transition: transform .2s, box-shadow .2s;
+      box-shadow: var(--shadow);
+    }
+    .btn-primary:hover{transform: translateY(-2px)}
+    .btn-ghost{padding:12px 16px; border-radius:12px; border:1px solid var(--border); background:var(--glass); color:#e9ddff; font-weight:600}
+    .badges{display:flex; gap:10px; flex-wrap:wrap; margin:0 0 14px}
+    .badge{padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:rgba(255,255,255,.04)}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
+      border:1px solid var(--border); border-radius:var(--radius); box-shadow: var(--shadow); overflow:hidden;
+    }
+    .mock{
+      aspect-ratio: 10/7; border-radius:var(--radius); background:
+        radial-gradient(160px 80px at 25% 18%, rgba(255,255,255,.35), transparent 40%),
+        linear-gradient(135deg, #2b1d4c, #1b1232 45%, #28184b); position:relative;
+      display:grid; place-items:center;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+    .mock::after{
+      content:"Скриншот приложения"; color:#dccfff; letter-spacing:.3px; font-weight:700; opacity:.7;
+      padding:8px 12px; border-radius:12px; border:1px dashed rgba(255,255,255,.25); background:rgba(255,255,255,.03)
+    }
+
+    /* features */
+    section{padding:56px 0}
+    .section-title{font-size: clamp(24px, 2.8vw, 36px); margin:0 0 8px}
+    .section-sub{color:var(--muted); margin:0 0 26px}
+    .grid{display:grid; gap:18px}
+    .grid.features{grid-template-columns: repeat(3, 1fr)}
+    .feat{padding:18px; border-radius:var(--radius-sm); background:var(--card); border:1px solid var(--border); position:relative; overflow:hidden}
+    .feat:hover{transform: translateY(-2px); transition:.2s; box-shadow: var(--shadow)}
+    .feat i{display:inline-grid; place-items:center; width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg,var(--brand),var(--accent)); margin-bottom:10px}
+    .feat h3{margin:0 0 6px}
+    .feat p{margin:0; color:#d9caff}
+    .shine{position:absolute; inset:-1px; background: radial-gradient(500px 80px at -10% -10%, rgba(255,255,255,.25), transparent 60%); opacity:.5; pointer-events:none}
+
+    /* downloads */
+    .downloads{display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:center}
+    .dl-card{padding:18px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); position:relative; overflow:hidden}
+    .dl-card h3{margin:0 0 12px}
+    .dl-list{display:grid; gap:10px}
+    .dl-btn{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding:14px; border-radius:14px; border:1px solid var(--border); background:var(--glass);
+      transition:.2s; font-weight:700;
+    }
+    .dl-btn:hover{transform:translateY(-2px); box-shadow: var(--shadow); border-color:transparent}
+    .os{display:flex; align-items:center; gap:12px}
+    .os .icon{width:26px; height:26px; display:grid; place-items:center}
+    .hint{color:var(--muted); font-size:13px; margin-top:6px}
+    .note{font-size:13px; color:#e9ddff}
+    .kbd{padding:.5px 6px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,.05); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+
+    /* FAQ */
+    details{border:1px solid var(--border); border-radius:12px; padding:14px 14px; background:rgba(255,255,255,.03)}
+    details+details{margin-top:10px}
+    summary{cursor:pointer; font-weight:700}
+    details p{color:#e9ddff}
+
+    /* footer */
+    footer{padding:36px 0 70px; color:#cbb6ff80}
+    .foot{display:flex; justify-content:space-between; gap:18px; align-items:center; border-top:1px solid var(--border); padding-top:18px}
+    .foot a{color:#cbb6ff}
+
+    /* responsive */
+    @media (max-width: 960px){
+      .hero-grid, .downloads{grid-template-columns: 1fr}
+    }
+    @media (max-width: 720px){
+      .grid.features{grid-template-columns: 1fr}
+    }
+
+    /* reveal on scroll */
+    .reveal{opacity:0; transform: translateY(16px); transition: .7s ease}
+    .reveal.in-view{opacity:1; transform:none}
+  </style>
+</head>
+<body>
+  <!-- Floating blobs -->
+  <div class="blob"></div>
+  <div class="blob-2"></div>
+  <div class="blob-3"></div>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>Motiva</span>
+      </div>
+      <nav style="display:flex; gap:8px">
+        <a href="#features" class="btn">Возможности</a>
+        <a href="#downloads" class="btn">Скачать</a>
+        <a id="repoLink" class="btn" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badges">
+            <span class="badge">Новый релиз · GitHub</span>
+            <span class="badge">Без рекламы</span>
+          </div>
+          <h1 class="h1">Фокусируйся и достигай: <br/>фиолетовый ритм продуктивности</h1>
+          <p class="subtitle">Трекер целей, помодоро и ежедневная рефлексия — красиво, быстро и без лишнего.</p>
+          <div class="cta">
+            <a id="ctaPrimary" class="btn-primary" href="#" download>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="icon" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="ctaPrimaryLabel">Скачать</span>
+            </a>
+            <a href="#downloads" class="btn-ghost">Все варианты загрузки</a>
+          </div>
+        </div>
+        <div class="card mock" aria-label="Скриншоты приложения"></div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="container">
+        <h2 class="section-title">Почему Motiva?</h2>
+        <p class="section-sub">Минимум кликов — максимум ясности. Дизайн в фиолетовой палитре и плавные анимации без перегруза.</p>
+        <div class="grid features">
+          <div class="feat reveal">
+            <i>🎯</i>
+            <h3>Цели и чек-листы</h3>
+            <p>Отмечай прогресс, сортируй и группируй задачи. Никакой магии — только скорость.</p>
+            <div class="shine"></div>
+          </div>
+          <div class="feat reveal">
+            <i>⏱️</i>
+            <h3>Помодоро</h3>
+            <p>Гибкие интервалы, история сессий и аккуратная статистика на борту.</p>
+            <div class="shine"></div>
+          </div>
+          <div class="feat reveal">
+            <i>🧠</i>
+            <h3>Рефлексия</h3>
+            <p>Короткие заметки, которые помогают держать курс и не выгорать.</p>
+            <div class="shine"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads">
+      <div class="container downloads">
+        <div class="dl-card reveal">
+          <h3>Скачать приложение</h3>
+          <div class="dl-list">
+            <a id="dlAndroid" class="dl-btn" href="#" download>
+              <div class="os">
+                <span class="icon" aria-hidden="true">
+                  <!-- Android icon -->
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#a78bfa"><path d="M7 11v6a2 2 0 0 0 2 2v0h1v3h2v-3h1a2 2 0 0 0 2-2v-6H7Zm-3 0v5a1 1 0 0 0 2 0v-5a1 1 0 0 0-2 0Zm16-1a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0v-5a1 1 0 0 0-1-1ZM9 4l-1.2-1.8.8-.6L10 3.3A6 6 0 0 1 14 3.3l1.4-1.7.8.6L15 4m-6 0a6 6 0 0 1 6 0M6 9h12a1 1 0 1 0 0-2H6a1 1 0 1 0 0 2Z"/></svg>
+                </span>
+                <span>Android · APK</span>
+              </div>
+              <span>Скачать</span>
+            </a>
+
+            <a id="dlWindows" class="dl-btn" href="#" download>
+              <div class="os">
+                <span class="icon" aria-hidden="true">
+                  <!-- Windows icon -->
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#a78bfa"><path d="M2 5.5 11 4v8H2V5.5Zm9 6.5h11V3L11 4v8Zm0 1H2v8.5L11 20v-7Zm1 0v7l11 1V13H12Z"/></svg>
+                </span>
+                <span>Windows · EXE/MSI</span>
+              </div>
+              <span>Скачать</span>
+            </a>
+
+            <p class="hint">Ссылки ведут на <strong>GitHub Releases</strong>. Можно делиться прямо ими — без промежуточных загрузчиков.</p>
+          </div>
+        </div>
+
+        <div class="dl-card reveal">
+          <h3>Как устанавливать из GitHub Releases</h3>
+          <details open>
+            <summary>Android (APK)</summary>
+            <p>1) Открой ссылку <span class="kbd">.apk</span> → скачай файл.<br/>
+               2) Разреши установку из неизвестных источников (если спросит).<br/>
+               3) Открой APK и следуй инструкциям.</p>
+          </details>
+          <details>
+            <summary>Windows (EXE/MSI)</summary>
+            <p>1) Скачай файл <span class="kbd">.exe</span> / <span class="kbd">.msi</span>.<br/>
+               2) Дважды кликни → «Далее» → «Установить».<br/>
+               3) Если SmartScreen спрашивает — жми «Подробнее» → «Выполнить в любом случае» (для новых подписанных билдов он не появляется).</p>
+          </details>
+          <p class="note" style="margin-top:10px">Нужны альтернативы (ZIP/Portable или Linux AppImage)? Могу добавить отдельные кнопки.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div style="display:flex; align-items:center; gap:12px">
+        <div class="logo" aria-hidden="true" style="width:28px; height:28px; border-radius:8px"></div>
+        <span>© <span id="year"></span> Motiva</span>
+      </div>
+      <div>
+        <a id="releasesLink" target="_blank" rel="noopener">Страница релизов</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ======================== CONFIG ========================
+       Укажи свой репозиторий и имена файлов релизов:
+       Пример: owner/repo = DmitryKulikov/Motiva
+               apkFile    = Motiva-Android.apk
+               winFile    = Motiva-Setup.exe
+    ========================================================= */
+    const ownerRepo = "Kuli21232/app";             // ← ЗАМЕНИ
+    const apkFile   = "app-129.apk";        // ← ЗАМЕНИ
+    const winFile   = "motiva.zip";        // ← ЗАМЕНИ
+    /* ====================================================== */
+
+    const baseRelease = `https://github.com/${ownerRepo}/releases/latest`;
+    const urlAPK = `${baseRelease}/download/${apkFile}`;
+    const urlWIN = `${baseRelease}/download/${winFile}`;
+
+    // Проставляем ссылки
+    document.getElementById("dlAndroid").href = urlAPK;
+    document.getElementById("dlWindows").href = urlWIN;
+    document.getElementById("repoLink").href = `https://github.com/${ownerRepo}`;
+    document.getElementById("releasesLink").href = baseRelease;
+
+    // Авто-выбор основной кнопки по ОС
+    function detectOS(){
+      const ua = navigator.userAgent.toLowerCase();
+      if (/android/.test(ua)) return "android";
+      if (/windows nt/.test(ua)) return "windows";
+      return "windows"; // дефолт — ПК
+    }
+    const os = detectOS();
+    const cta = document.getElementById("ctaPrimary");
+    const ctaLabel = document.getElementById("ctaPrimaryLabel");
+    if (os === "android"){ cta.href = urlAPK; ctaLabel.textContent = "Скачать для Android (APK)"; }
+    else { cta.href = urlWIN; ctaLabel.textContent = "Скачать для Windows"; }
+
+    // Reveal on scroll (микро-анимации без библиотек)
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+    }, {threshold: .18});
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Год в футере
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
