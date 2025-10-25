@@ -2,330 +2,1201 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Motiva — твой трекер целей</title>
-  <meta name="description" content="Motiva — простой трекер целей и фокус-сессий. Скачай для Android и Windows с GitHub Releases." />
-  <meta property="og:title" content="Motiva — трекер целей" />
-  <meta property="og:description" content="Скачай для Android и Windows с GitHub Releases." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>My Purple Hub — проекты, приложения, отзывы, поддержка</title>
+  <meta name="description" content="Фиолетовый хаб с каталогом моих приложений, портфолио, отзывами и поддержкой. Скачивай, читай, поддержи развитие." />
+  <meta property="og:title" content="My Purple Hub — мои проекты" />
+  <meta property="og:description" content="Каталог приложений, портфолио, отзывы и поддержка." />
   <meta name="theme-color" content="#6f35ff" />
   <style>
     :root{
       --bg: #0b0714;
+      --bg-2: #0e0a1b;
       --card: #100a1f;
-      --fg: #f7f2ff;
+      --surface: #130c26;
+      --fg: #f6f1ff;
       --muted: #cbb6ff;
-      --brand: #8b5cf6;     /* violet-500 */
-      --brand-2:#6d28d9;     /* violet-700 */
-      --brand-3:#b794f4;     /* violet-300 */
-      --accent:#a78bfa;      /* violet-400 */
+      --brand: #8b5cf6;
+      --brand-2:#6d28d9;
+      --brand-3:#b794f4;
+      --accent:#a78bfa;
+      --accent-2:#7c3aed;
+      --accent-3:#c4b5fd;
       --glass: rgba(255,255,255,.06);
       --border: rgba(255,255,255,.12);
-      --shadow: 0 10px 40px rgba(123, 97, 255, .35);
+      --border-2: rgba(167,139,250,.25);
+      --shadow: 0 14px 50px rgba(123, 97, 255, .28);
       --radius: 18px;
-      --radius-sm: 12px;
-      --maxw: 1120px;
+      --radius-sm: 14px;
+      --radius-xs: 10px;
+      --maxw: 1200px;
+      --speed: .25s;
+      --header-h: 72px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
+    html{scroll-behavior:smooth}
     body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--fg); background: radial-gradient(1200px 600px at 10% -10%, #2a1b57 0%, transparent 60%),
-                         radial-gradient(900px 500px at 110% 20%, #3b1e7d 0%, transparent 60%),
-                         linear-gradient(180deg, #0a0712, #0d0819 60%, #120a23);
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial;
+      color:var(--fg);
+      background:
+        radial-gradient(1200px 600px at 8% -10%, #2a1b57 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 20%, #3b1e7d 0%, transparent 60%),
+        linear-gradient(180deg, #0a0712, #0d0819 60%, #130a25);
       overflow-x:hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      touch-action: manipulation;
     }
     a{color:inherit; text-decoration:none}
-    .container{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+    img{max-width:100%; display:block}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    .container{max-width:var(--maxw); margin:0 auto; padding:0 22px}
+
+    /* HEADER */
     header{
-      position:sticky; top:0; z-index:40; backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(16,10,31,.7), rgba(16,10,31,.35) 60%, rgba(16,10,31,0));
+      position:sticky; top:0; z-index:60; backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(16,10,31,.85), rgba(16,10,31,.55) 60%, rgba(16,10,31,0));
       border-bottom:1px solid var(--border);
+      height:var(--header-h);
+    }
+    .progress{
+      position:absolute; left:0; right:0; top:0; height:3px; background:linear-gradient(90deg, var(--brand), var(--accent));
+      transform-origin: 0 50%; transform: scaleX(0);
     }
     .nav{
-      display:flex; align-items:center; justify-content:space-between; gap:20px; height:66px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px; height:100%;
     }
-    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.3px}
     .logo{
-      width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+      width:38px; height:38px; border-radius:12px; display:grid; place-items:center; position:relative; overflow:hidden;
       background: conic-gradient(from 220deg, #a78bfa, #6d28d9, #8b5cf6, #c4b5fd, #a78bfa);
-      box-shadow: var(--shadow); position:relative; overflow:hidden;
-    }
-    .logo::after{content:""; position:absolute; inset:0; background:radial-gradient(400px 80px at 20% -30%, rgba(255,255,255,.6), transparent 60%);}
-    .nav a.btn{padding:10px 16px; border:1px solid var(--border); border-radius:12px; background:var(--glass); transition:.25s}
-    .nav a.btn:hover{transform: translateY(-2px); box-shadow: var(--shadow); border-color:transparent}
-    main{position:relative}
-    /* floating blobs */
-    .blob, .blob-2, .blob-3{
-      position:absolute; filter: blur(70px); opacity:.35; z-index:-1; mix-blend:screen; pointer-events:none;
-      animation: drift 18s ease-in-out infinite alternate;
-    }
-    .blob{width:520px; height:520px; background:#7c3aed; top: -120px; left:-140px}
-    .blob-2{width:420px; height:420px; background:#c4b5fd; right:-160px; top: 120px; animation-duration:22s}
-    .blob-3{width:360px; height:360px; background:#8b5cf6; left: 45%; top: 380px; animation-duration:26s}
-    @keyframes drift { from{transform:translateY(0) translateX(0) rotate(0)} to{transform:translateY(20px) translateX(20px) rotate(8deg)} }
-
-    /* hero */
-    .hero{padding:64px 0 28px}
-    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center}
-    .h1{font-size: clamp(36px, 4.2vw, 60px); line-height:1.03; margin:0 0 12px; font-weight:900}
-    .subtitle{color:var(--muted); font-size: clamp(16px, 1.6vw, 18px); margin:0 0 26px}
-    .cta{display:flex; flex-wrap:wrap; gap:14px}
-    .btn-primary{
-      --g: linear-gradient(135deg, var(--brand), var(--brand-2));
-      padding:14px 18px; border-radius:14px; background:var(--g); border:0; color:white; font-weight:700;
-      display:inline-flex; align-items:center; gap:10px; transition: transform .2s, box-shadow .2s;
       box-shadow: var(--shadow);
+      transition: transform .3s;
+      will-change: transform;
     }
-    .btn-primary:hover{transform: translateY(-2px)}
-    .btn-ghost{padding:12px 16px; border-radius:12px; border:1px solid var(--border); background:var(--glass); color:#e9ddff; font-weight:600}
-    .badges{display:flex; gap:10px; flex-wrap:wrap; margin:0 0 14px}
-    .badge{padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:rgba(255,255,255,.04)}
+    .logo::after{content:""; position:absolute; inset:0;
+      background:radial-gradient(400px 80px at 15% -30%, rgba(255,255,255,.55), transparent 60%)}
+    .logo:hover{transform: rotate(6deg) scale(1.04)}
+    nav.navlinks{display:flex; align-items:center; gap:6px; flex-wrap:wrap}
+    .tab-btn{
+      padding:10px 14px; border:1px solid var(--border); border-radius:12px; background:var(--glass);
+      transition: transform var(--speed), box-shadow var(--speed), color var(--speed), border-color var(--speed), background-position .3s ease;
+      font-weight:800; color:#eaddff; position:relative; overflow:hidden; background-size:200% 200%;
+    }
+    .tab-btn:hover{transform: translateY(-2px); box-shadow: var(--shadow); border-color:transparent}
+    .tab-btn.active{background: linear-gradient(135deg, var(--brand), var(--brand-2)); color:white; border-color: transparent}
+    .tab-btn[aria-current="page"]{outline:2px solid var(--brand-3); outline-offset:2px}
+
+    /* Mobile burger */
+    .burger{
+      display:none; width:42px; height:42px; border-radius:12px; border:1px solid var(--border);
+      background:var(--glass); align-items:center; justify-content:center; color:#eaddff;
+      transition:.2s; cursor:pointer;
+    }
+    .burger:hover{transform:translateY(-1px); box-shadow:var(--shadow); border-color:transparent}
+    .burger svg{display:block}
+
+    /* Mobile menu panel */
+    .nav-panel{
+      position:fixed; top:var(--header-h); left:0; right:0; background:rgba(16,10,31,.92);
+      border-bottom:1px solid var(--border); backdrop-filter: blur(12px);
+      transform: translateY(-12px); opacity:0; pointer-events:none; transition:.25s ease; z-index:59;
+    }
+    .nav-panel.open{transform:none; opacity:1; pointer-events:auto}
+    .nav-panel .navlinks{padding:12px; gap:10px; flex-wrap:nowrap; overflow:auto}
+    .nav-panel .tab-btn{flex:0 0 auto}
+
+    /* GLOW BLOBS */
+    .blob, .blob-2, .blob-3{
+      position:fixed; filter: blur(80px); opacity:.35; z-index:-1; mix-blend:screen; pointer-events:none;
+      animation: drift 20s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+    .blob{width:560px; height:560px; background:#7c3aed; top: -120px; left:-160px}
+    .blob-2{width:460px; height:460px; background:#c4b5fd; right:-190px; top: 140px; animation-duration:24s}
+    .blob-3{width:380px; height:380px; background:#8b5cf6; left: 50%; top: 420px; animation-duration:28s}
+    @keyframes drift { from{transform:translateY(0) translateX(0) rotate(0)} to{transform:translateY(22px) translateX(24px) rotate(8deg)} }
+
+    main{position:relative}
+
+    /* VIEWS (ROUTER) */
+    .view{display:none; opacity:0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease}
+    .view.active{display:block; opacity:1; transform:none}
+    section{padding:56px 0}
+    .section-title{font-size: clamp(26px, 3.2vw, 40px); margin:0 0 8px}
+    .section-sub{color:var(--muted); margin:0 0 24px}
+
+    /* HERO */
+    .hero{padding:70px 0 34px}
+    .hero-grid{display:grid; grid-template-columns:1.08fr .92fr; gap:26px; align-items:center}
+    .h1{font-size: clamp(34px, 4.4vw, 64px); line-height:1.04; margin:0 0 12px; font-weight:900; letter-spacing:.2px}
+    .subtitle{color:var(--muted); font-size: clamp(15px, 1.6vw, 18px); margin:0 0 26px}
+    .cta{display:flex; flex-wrap:wrap; gap:12px}
+    .btn-primary, .btn, .btn-ghost{
+      position:relative; overflow:hidden;
+    }
+    .btn-primary{
+      padding:14px 18px; border-radius:14px; background:linear-gradient(135deg, var(--brand), var(--brand-2));
+      background-size: 200% 200%;
+      border:0; color:white; font-weight:900; letter-spacing:.2px;
+      display:inline-flex; align-items:center; gap:10px; transition: transform .18s, box-shadow .18s, background-position .3s;
+      box-shadow: var(--shadow); will-change: transform;
+    }
+    .btn-primary:hover{transform: translateY(-2px); background-position: 100% 0}
+    .btn-ghost{padding:12px 16px; border-radius:12px; border:1px solid var(--border); background:var(--glass); color:#e9ddff; font-weight:800}
+    .btn-ghost:hover{transform: translateY(-2px); box-shadow:var(--shadow); border-color:transparent}
+    .marquee{
+      margin-top:18px; overflow:hidden; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.03)
+    }
+    .marquee-track{display:flex; gap:22px; white-space:nowrap; padding:10px 14px; animation: marquee 25s linear infinite}
+    @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    .mock{
+      aspect-ratio: 10/7; border-radius:var(--radius);
+      background:
+        radial-gradient(160px 80px at 25% 18%, rgba(255,255,255,.35), transparent 40%),
+        linear-gradient(135deg, #2b1d4c, #1b1232 45%, #28184b);
+      position:relative; display:grid; place-items:center; animation: float 6s ease-in-out infinite;
+      border:1px solid var(--border); box-shadow: var(--shadow); overflow:hidden;
+      will-change: transform;
+    }
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+    .mock::after{
+      content:"Превью твоих приложений"; color:#dccfff; letter-spacing:.3px; font-weight:800; opacity:.75;
+      padding:8px 12px; border-radius:12px; border:1px dashed rgba(255,255,255,.25); background:rgba(255,255,255,.03)
+    }
+
+    /* FEATURE CARDS */
+    .grid{display:grid; gap:18px}
+    .grid-3{grid-template-columns: repeat(3, 1fr)}
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04));
       border:1px solid var(--border); border-radius:var(--radius); box-shadow: var(--shadow); overflow:hidden;
     }
-    .mock{
-      aspect-ratio: 10/7; border-radius:var(--radius); background:
-        radial-gradient(160px 80px at 25% 18%, rgba(255,255,255,.35), transparent 40%),
-        linear-gradient(135deg, #2b1d4c, #1b1232 45%, #28184b); position:relative;
-      display:grid; place-items:center;
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-6px)}100%{transform:translateY(0)}}
-    .mock::after{
-      content:"Скриншот приложения"; color:#dccfff; letter-spacing:.3px; font-weight:700; opacity:.7;
-      padding:8px 12px; border-radius:12px; border:1px dashed rgba(255,255,255,.25); background:rgba(255,255,255,.03)
-    }
-
-    /* features */
-    section{padding:56px 0}
-    .section-title{font-size: clamp(24px, 2.8vw, 36px); margin:0 0 8px}
-    .section-sub{color:var(--muted); margin:0 0 26px}
-    .grid{display:grid; gap:18px}
-    .grid.features{grid-template-columns: repeat(3, 1fr)}
-    .feat{padding:18px; border-radius:var(--radius-sm); background:var(--card); border:1px solid var(--border); position:relative; overflow:hidden}
-    .feat:hover{transform: translateY(-2px); transition:.2s; box-shadow: var(--shadow)}
+    .feat{padding:18px; border-radius:var(--radius); background:var(--card); border:1px solid var(--border); position:relative; overflow:hidden; transition:.2s; will-change: transform}
+    .feat:hover{transform: translateY(-3px); box-shadow: var(--shadow)}
     .feat i{display:inline-grid; place-items:center; width:38px; height:38px; border-radius:10px; background:linear-gradient(135deg,var(--brand),var(--accent)); margin-bottom:10px}
     .feat h3{margin:0 0 6px}
     .feat p{margin:0; color:#d9caff}
-    .shine{position:absolute; inset:-1px; background: radial-gradient(500px 80px at -10% -10%, rgba(255,255,255,.25), transparent 60%); opacity:.5; pointer-events:none}
+    .shine{position:absolute; inset:-1px; background: radial-gradient(500px 80px at var(--mx, -10%) var(--my, -10%), rgba(255,255,255,.25), transparent 60%); opacity:.5; pointer-events:none; transition:.2s}
 
-    /* downloads */
-    .downloads{display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:center}
-    .dl-card{padding:18px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); position:relative; overflow:hidden}
-    .dl-card h3{margin:0 0 12px}
-    .dl-list{display:grid; gap:10px}
-    .dl-btn{
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-      padding:14px; border-radius:14px; border:1px solid var(--border); background:var(--glass);
-      transition:.2s; font-weight:700;
+    /* COUNTERS */
+    .counters{display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-top:18px}
+    .kpi{padding:16px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.03)}
+    .kpi b{font-size:28px}
+
+    /* CATALOG (APPS) */
+    .toolbar{
+      position:sticky; top: calc(var(--header-h) + 8px);
+      z-index:10;
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:16px;
+      padding:10px; border:1px solid var(--border); border-radius:14px; background:rgba(18,14,34,.6); backdrop-filter: blur(8px)
     }
-    .dl-btn:hover{transform:translateY(-2px); box-shadow: var(--shadow); border-color:transparent}
-    .os{display:flex; align-items:center; gap:12px}
-    .os .icon{width:26px; height:26px; display:grid; place-items:center}
-    .hint{color:var(--muted); font-size:13px; margin-top:6px}
-    .note{font-size:13px; color:#e9ddff}
-    .kbd{padding:.5px 6px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,.05); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .search{flex:1 1 220px; min-width:220px; display:flex; align-items:center; gap:8px; padding:12px 14px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.04)}
+    .search input{flex:1; background:transparent; border:0; color:var(--fg); outline:0}
+    .chip{padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,.04); cursor:pointer; font-weight:800; transition:.2s}
+    .chip:hover{transform: translateY(-2px); box-shadow:var(--shadow); border-color:transparent}
+    .chip.active{background: linear-gradient(135deg, var(--brand), var(--brand-2)); border-color:transparent}
+    .select{padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,.05); color:var(--fg)}
+    .apps-grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px}
+    .app-card{
+      position:relative; border:1px solid var(--border); border-radius:18px; background:var(--surface);
+      overflow:hidden; transition:.2s; transform-style: preserve-3d; will-change: transform;
+    }
+    .app-card:hover{transform: translateY(-3px) rotateX(0.6deg) rotateY(-0.6deg); box-shadow: var(--shadow)}
+    .app-thumb{aspect-ratio: 16/10; background:
+      radial-gradient(160px 80px at 20% 18%, rgba(255,255,255,.35), transparent 40%),
+      linear-gradient(135deg, #311f5c, #1c1336 45%, #2a1651);
+      border-bottom:1px solid var(--border); display:grid; place-items:center; color:#e9ddff; font-weight:900; letter-spacing:.3px
+    }
+    .badge{padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:rgba(255,255,255,.04)}
+    .app-body{padding:14px}
+    .app-title{display:flex; align-items:center; gap:10px; justify-content:space-between; margin-bottom:6px}
+    .tags{display:flex; gap:6px; flex-wrap:wrap}
+    .app-actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:var(--glass); font-weight:800; transition:.18s; color:#eaddff}
+    .btn:hover{transform:translateY(-2px); box-shadow: var(--shadow); border-color:transparent}
+    .btn-solid{background: linear-gradient(135deg, var(--brand), var(--brand-2)); border-color:transparent; color:white}
+    .rating{color:#fcd34d}
+    .downloads-mini{color:#cbb6ff; font-size:13px}
+    .pill{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.04); font-size:12px}
 
-    /* FAQ */
-    details{border:1px solid var(--border); border-radius:12px; padding:14px 14px; background:rgba(255,255,255,.03)}
-    details+details{margin-top:10px}
-    summary{cursor:pointer; font-weight:700}
-    details p{color:#e9ddff}
+    /* MODAL */
+    .overlay{position:fixed; inset:0; background:rgba(5,3,12,.65); backdrop-filter: blur(8px); display:none; align-items:center; justify-content:center; z-index:70}
+    .overlay.open{display:flex; animation: fadeIn .25s ease}
+    @keyframes fadeIn{from{opacity:0} to{opacity:1}}
+    .modal{
+      width:min(880px, 92vw); max-height:86vh; overflow:auto;
+      border-radius:20px; border:1px solid var(--border-2); background:linear-gradient(180deg, #120a22, #0f0a1e);
+      box-shadow: 0 40px 120px rgba(104,74,240,.35);
+      transform: translateY(10px) scale(.98); opacity:.98; transition:.25s ease;
+    }
+    .overlay.open .modal{transform:none; opacity:1}
+    .modal-head{display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--border)}
+    .modal-body{padding:18px}
+    .gallery{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    .shot{aspect-ratio: 16/10; border-radius:14px; border:1px solid var(--border); background:
+      radial-gradient(140px 70px at 18% 18%, rgba(255,255,255,.35), transparent 43%),
+      linear-gradient(135deg, #33205f, #1a112f 45%, #2b1754)}
+    .meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .close{border:1px solid var(--border); background:rgba(255,255,255,.05); color:#e9ddff; border-radius:12px; padding:8px 12px; cursor:pointer; font-weight:900}
 
-    /* footer */
-    footer{padding:36px 0 70px; color:#cbb6ff80}
+    /* PORTFOLIO */
+    .timeline{position:relative; margin-left:10px; padding-left:18px}
+    .timeline::before{content:""; position:absolute; left:0; top:0; bottom:0; width:2px; background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,0))}
+    .tl-item{position:relative; margin-bottom:18px}
+    .tl-item::before{content:""; position:absolute; left:-10px; top:8px; width:10px; height:10px; border-radius:50%; background:var(--accent)}
+    .tl-card{padding:14px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.03)}
+    .stack{display:flex; gap:6px; flex-wrap:wrap}
+
+    /* REVIEWS */
+    .reviews-wrap{position:relative}
+    .track{display:flex; gap:16px; overflow:auto; scroll-snap-type: x mandatory; padding-bottom:4px}
+    .track::-webkit-scrollbar{height:8px}
+    .track::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15); border-radius:999px}
+    .review{scroll-snap-align:start; min-width:304px; max-width:380px; padding:16px; border:1px solid var(--border); border-radius:16px; background:rgba(255,255,255,.05); will-change: transform}
+    .review .who{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+    .avatar{width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, var(--brand), var(--brand-2)); border:1px solid var(--border)}
+
+    /* SUPPORT */
+    .donate-grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px}
+    .don-card{padding:16px; border:1px solid var(--border); border-radius:16px; background:rgba(255,255,255,.04)}
+    .don-ways{display:grid; gap:10px}
+    .copy{display:inline-flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; border:1px dashed var(--border); background:rgba(255,255,255,.03); cursor:pointer}
+    .qr{aspect-ratio:1; border-radius:12px; border:1px solid var(--border); background:
+      radial-gradient(100px 50px at 18% 18%, rgba(255,255,255,.35), transparent 43%),
+      linear-gradient(135deg, #352563, #1a1330 45%, #2c1a55)}
+
+    /* CONTACT */
+    .contact-grid{display:grid; grid-template-columns: 1fr 1fr; gap:18px}
+    .form{display:grid; gap:10px}
+    .input{padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,.05); color:var(--fg)}
+    textarea.input{min-height:140px; resize:vertical}
+
+    /* FOOTER */
+    footer{padding:36px 0 calc(70px + var(--safe-b)); color:#cbb6ff90}
     .foot{display:flex; justify-content:space-between; gap:18px; align-items:center; border-top:1px solid var(--border); padding-top:18px}
     .foot a{color:#cbb6ff}
 
-    /* responsive */
-    @media (max-width: 960px){
-      .hero-grid, .downloads{grid-template-columns: 1fr}
-    }
-    @media (max-width: 720px){
-      .grid.features{grid-template-columns: 1fr}
-    }
-
-    /* reveal on scroll */
+    /* REVEAL */
     .reveal{opacity:0; transform: translateY(16px); transition: .7s ease}
     .reveal.in-view{opacity:1; transform:none}
+
+    /* Focus visible */
+    :focus-visible{outline:2px solid var(--brand-3); outline-offset:2px; border-radius:12px}
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar{width:10px}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14); border-radius:10px}
+
+    /* Responsive */
+    @media (max-width: 1200px){
+      .container{padding:0 18px}
+    }
+    @media (max-width: 1080px){
+      .apps-grid{grid-template-columns: repeat(2, 1fr)}
+      .hero-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 920px){
+      .burger{display:flex}
+      header nav.navlinks{display:none}
+      .blob-2{opacity:.25}
+      .hero{padding-top:58px}
+      .toolbar{top: calc(var(--header-h) + 6px)}
+    }
+    @media (max-width: 740px){
+      .grid-3{grid-template-columns: 1fr}
+      .apps-grid{grid-template-columns: 1fr}
+      .donate-grid, .contact-grid{grid-template-columns: 1fr}
+      .counters{grid-template-columns: 1fr 1fr}
+      .badge{font-size:11px}
+      .tab-btn{padding:10px 12px}
+      .marquee-track{animation-duration: 32s}
+    }
+    @media (max-width: 520px){
+      .counters{grid-template-columns: 1fr}
+      .cta{flex-direction:column}
+      .btn-primary, .btn-ghost, .btn{width:100%; justify-content:center}
+      .search{min-width:0}
+      .blob-3{display:none}
+      :root{--header-h: 66px}
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important; transition:none !important}
+      .marquee-track{animation: none}
+      html{scroll-behavior:auto}
+    }
   </style>
 </head>
 <body>
-  <!-- Floating blobs -->
+  <a class="sr-only" href="#main">Пропустить к контенту</a>
+
+  <!-- Glowing blobs -->
   <div class="blob"></div>
   <div class="blob-2"></div>
   <div class="blob-3"></div>
 
   <header>
-    <div class="container nav">
+    <div class="progress" id="progressBar" aria-hidden="true"></div>
+    <div class="container nav" role="navigation" aria-label="Главная навигация">
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
-        <span>Motiva</span>
+        <span id="siteTitle">My Purple Hub</span>
       </div>
-      <nav style="display:flex; gap:8px">
-        <a href="#features" class="btn">Возможности</a>
-        <a href="#downloads" class="btn">Скачать</a>
-        <a id="repoLink" class="btn" target="_blank" rel="noopener">GitHub</a>
+      <nav class="navlinks" aria-label="Ссылки по разделам">
+        <a class="tab-btn" data-route="home" href="#home">Главная</a>
+        <a class="tab-btn" data-route="apps" href="#apps">Приложения</a>
+        <a class="tab-btn" data-route="portfolio" href="#portfolio">Портфолио</a>
+        <a class="tab-btn" data-route="reviews" href="#reviews">Отзывы</a>
+        <a class="tab-btn" data-route="support" href="#support">Поддержать</a>
+        <a class="tab-btn" data-route="contact" href="#contact">Контакты</a>
+        <a id="navGithub" class="tab-btn" target="_blank" rel="noopener noreferrer">GitHub</a>
       </nav>
+      <button class="burger" id="navToggle" aria-expanded="false" aria-controls="navPanel" aria-label="Открыть меню">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M8 18h12" stroke="#eaddff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="navPanel" class="nav-panel" role="dialog" aria-modal="true" aria-label="Мобильное меню">
+      <div class="navlinks">
+        <a class="tab-btn" data-route="home" href="#home">Главная</a>
+        <a class="tab-btn" data-route="apps" href="#apps">Приложения</a>
+        <a class="tab-btn" data-route="portfolio" href="#portfolio">Портфолио</a>
+        <a class="tab-btn" data-route="reviews" href="#reviews">Отзывы</a>
+        <a class="tab-btn" data-route="support" href="#support">Поддержать</a>
+        <a class="tab-btn" data-route="contact" href="#contact">Контакты</a>
+        <a id="navGithubMobile" class="tab-btn" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="badges">
-            <span class="badge">Новый релиз · GitHub</span>
-            <span class="badge">Без рекламы</span>
-          </div>
-          <h1 class="h1">Фокусируйся и достигай: <br/>фиолетовый ритм продуктивности</h1>
-          <p class="subtitle">Трекер целей, помодоро и ежедневная рефлексия — красиво, быстро и без лишнего.</p>
-          <div class="cta">
-            <a id="ctaPrimary" class="btn-primary" href="#" download>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="icon" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span id="ctaPrimaryLabel">Скачать</span>
-            </a>
-            <a href="#downloads" class="btn-ghost">Все варианты загрузки</a>
-          </div>
-        </div>
-        <div class="card mock" aria-label="Скриншоты приложения"></div>
-      </div>
-    </section>
+  <main id="main">
+    <!-- HOME -->
+    <div class="view active" id="view-home">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="badge" style="display:inline-block; margin-bottom:10px">Новые релизы · GitHub</div>
+            <h1 class="h1">Мой фиолетовый хаб: приложения, проекты и поддержка</h1>
+            <p class="subtitle">Скачивай мои приложения, смотри портфолио и отзывы, поддерживай развитие. Анимации, скорость и чистый дизайн.</p>
+            <div class="cta">
+              <a class="btn-primary mag" data-route="apps" href="#apps" aria-label="Перейти к каталогу приложений">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                К каталогу приложений
+              </a>
+              <a class="btn-ghost" data-route="support" href="#support">Поддержать проект</a>
+            </div>
 
-    <section id="features">
-      <div class="container">
-        <h2 class="section-title">Почему Motiva?</h2>
-        <p class="section-sub">Минимум кликов — максимум ясности. Дизайн в фиолетовой палитре и плавные анимации без перегруза.</p>
-        <div class="grid features">
-          <div class="feat reveal">
-            <i>🎯</i>
-            <h3>Цели и чек-листы</h3>
-            <p>Отмечай прогресс, сортируй и группируй задачи. Никакой магии — только скорость.</p>
-            <div class="shine"></div>
-          </div>
-          <div class="feat reveal">
-            <i>⏱️</i>
-            <h3>Помодоро</h3>
-            <p>Гибкие интервалы, история сессий и аккуратная статистика на борту.</p>
-            <div class="shine"></div>
-          </div>
-          <div class="feat reveal">
-            <i>🧠</i>
-            <h3>Рефлексия</h3>
-            <p>Короткие заметки, которые помогают держать курс и не выгорать.</p>
-            <div class="shine"></div>
-          </div>
-        </div>
-      </div>
-    </section>
+            <div class="marquee reveal" style="margin-top:22px">
+              <div class="marquee-track">
+                <span class="pill">⚡ Без рекламы</span>
+                <span class="pill">🎯 Фокус и продуманность</span>
+                <span class="pill">🟣 Фиолетовая эстетика</span>
+                <span class="pill">🔒 Открытые исходники</span>
+                <span class="pill">🚀 Быстрые релизы</span>
+                <span class="pill">💜 Коммьюнити</span>
 
-    <section id="downloads">
-      <div class="container downloads">
-        <div class="dl-card reveal">
-          <h3>Скачать приложение</h3>
-          <div class="dl-list">
-            <a id="dlAndroid" class="dl-btn" href="#" download>
-              <div class="os">
-                <span class="icon" aria-hidden="true">
-                  <!-- Android icon -->
-                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#a78bfa"><path d="M7 11v6a2 2 0 0 0 2 2v0h1v3h2v-3h1a2 2 0 0 0 2-2v-6H7Zm-3 0v5a1 1 0 0 0 2 0v-5a1 1 0 0 0-2 0Zm16-1a1 1 0 0 0-1 1v5a1 1 0 0 0 2 0v-5a1 1 0 0 0-1-1ZM9 4l-1.2-1.8.8-.6L10 3.3A6 6 0 0 1 14 3.3l1.4-1.7.8.6L15 4m-6 0a6 6 0 0 1 6 0M6 9h12a1 1 0 1 0 0-2H6a1 1 0 1 0 0 2Z"/></svg>
-                </span>
-                <span>Android · APK</span>
+                <span class="pill">⚡ Без рекламы</span>
+                <span class="pill">🎯 Фокус и продуманность</span>
+                <span class="pill">🟣 Фиолетовая эстетика</span>
+                <span class="pill">🔒 Открытые исходники</span>
+                <span class="pill">🚀 Быстрые релизы</span>
+                <span class="pill">💜 Коммьюнити</span>
               </div>
-              <span>Скачать</span>
-            </a>
+            </div>
 
-            <a id="dlWindows" class="dl-btn" href="#" download>
-              <div class="os">
-                <span class="icon" aria-hidden="true">
-                  <!-- Windows icon -->
-                  <svg viewBox="0 0 24 24" width="24" height="24" fill="#a78bfa"><path d="M2 5.5 11 4v8H2V5.5Zm9 6.5h11V3L11 4v8Zm0 1H2v8.5L11 20v-7Zm1 0v7l11 1V13H12Z"/></svg>
-                </span>
-                <span>Windows · EXE/MSI</span>
-              </div>
-              <span>Скачать</span>
-            </a>
+            <div class="counters reveal">
+              <div class="kpi"><div>Скачивания</div><b id="kpiDownloads">0</b></div>
+              <div class="kpi"><div>Проекты</div><b id="kpiProjects">0</b></div>
+              <div class="kpi"><div>Звёзды GitHub</div><b id="kpiStars">0</b></div>
+            </div>
+          </div>
+          <div class="card mock" id="heroMock" aria-label="Превью"></div>
+        </div>
+      </section>
 
-            <p class="hint">Ссылки ведут на <strong>GitHub Releases</strong>. Можно делиться прямо ими — без промежуточных загрузчиков.</p>
+      <section>
+        <div class="container">
+          <h2 class="section-title">Почему этот хаб?</h2>
+          <p class="section-sub">Минимум кликов — максимум пользы. Красивые микровзаимодействия при наведении, скролле и нажатии.</p>
+          <div class="grid grid-3">
+            <div class="feat reveal mouse-shine">
+              <i>🛍️</i>
+              <h3>Почти как магазин</h3>
+              <p>Каталог, фильтры, рейтинги, карточки приложений и модальные подробности.</p>
+              <div class="shine"></div>
+            </div>
+            <div class="feat reveal mouse-shine">
+              <i>🧪</i>
+              <h3>Без библиотек</h3>
+              <p>Чистый HTML/CSS/JS. Быстро грузится, легко кастомизируется, просто деплоить.</p>
+              <div class="shine"></div>
+            </div>
+            <div class="feat reveal mouse-shine">
+              <i>💜</i>
+              <h3>Фиолетовая магия</h3>
+              <p>Градиенты, блёры, мягкие тени и плавные эффекты в единой палитре.</p>
+              <div class="shine"></div>
+            </div>
           </div>
         </div>
+      </section>
+    </div>
 
-        <div class="dl-card reveal">
-          <h3>Как устанавливать из GitHub Releases</h3>
-          <details open>
-            <summary>Android (APK)</summary>
-            <p>1) Открой ссылку <span class="kbd">.apk</span> → скачай файл.<br/>
-               2) Разреши установку из неизвестных источников (если спросит).<br/>
-               3) Открой APK и следуй инструкциям.</p>
-          </details>
-          <details>
-            <summary>Windows (EXE/MSI)</summary>
-            <p>1) Скачай файл <span class="kbd">.exe</span> / <span class="kbd">.msi</span>.<br/>
-               2) Дважды кликни → «Далее» → «Установить».<br/>
-               3) Если SmartScreen спрашивает — жми «Подробнее» → «Выполнить в любом случае» (для новых подписанных билдов он не появляется).</p>
-          </details>
-          <p class="note" style="margin-top:10px">Нужны альтернативы (ZIP/Portable или Linux AppImage)? Могу добавить отдельные кнопки.</p>
+    <!-- APPS -->
+    <div class="view" id="view-apps">
+      <section>
+        <div class="container">
+          <h2 class="section-title">Приложения</h2>
+          <p class="section-sub">Выбирай платформу, фильтры и сортировку. Скачивание — прямо с GitHub Releases.</p>
+
+          <div class="toolbar">
+            <div class="search">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#cbb6ff" d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79L20 20.5 20.5 20l-5-6Zm-6 0A5 5 0 1 1 14.5 9 5 5 0 0 1 9.5 14Z"/></svg>
+              <input id="appSearch" type="search" placeholder="Поиск по приложениям..." enterkeyhint="search" />
+            </div>
+            <div class="chips" id="osChips" role="tablist" aria-label="Фильтр по платформам">
+              <span class="chip" role="tab" aria-selected="true" data-os="all">Все</span>
+              <span class="chip" role="tab" data-os="android">Android</span>
+              <span class="chip" role="tab" data-os="windows">Windows</span>
+              <span class="chip" role="tab" data-os="web">Web</span>
+            </div>
+            <label>
+              <span class="sr-only">Сортировка</span>
+              <select id="sortSelect" class="select" aria-label="Сортировка">
+                <option value="popular">Сначала популярные</option>
+                <option value="new">Сначала новые</option>
+                <option value="rating">Сначала с высоким рейтингом</option>
+                <option value="name">По названию</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="appsGrid" class="apps-grid" aria-live="polite"></div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
+
+    <!-- PORTFOLIO -->
+    <div class="view" id="view-portfolio">
+      <section>
+        <div class="container">
+          <h2 class="section-title">Портфолио</h2>
+          <p class="section-sub">Подборка заметных проектов и вкладов.</p>
+
+          <div class="timeline">
+            <div id="portfolioList"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="view" id="view-reviews">
+      <section>
+        <div class="container">
+          <h2 class="section-title">Отзывы</h2>
+          <p class="section-sub">Что говорят пользователи. Можно прислать свой отзыв через контакты.</p>
+
+          <div class="reviews-wrap">
+            <div id="reviewsTrack" class="track"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- SUPPORT -->
+    <div class="view" id="view-support">
+      <section>
+        <div class="container">
+          <h2 class="section-title">Поддержать разработку</h2>
+          <p class="section-sub">Если нравится — поддержи. Каждая копейка ускоряет релизы и помогает держать сервера.</p>
+
+          <div class="donate-grid">
+            <div class="don-card reveal">
+              <h3 style="margin-top:0">Подписка и разовые донаты</h3>
+              <div class="don-ways" id="donationLinks"></div>
+              <div style="margin-top:10px">
+                <button class="btn-primary mag" id="btnThanks" type="button">Сказать “спасибо” 💜</button>
+              </div>
+            </div>
+            <div class="don-card reveal">
+              <h3 style="margin-top:0">Крипто-кошельки</h3>
+              <div class="don-ways" id="cryptoList"></div>
+              <div class="qr" style="margin-top:10px" id="qrBox" aria-label="QR"></div>
+              <div class="hint" style="color:#cbb6ff; margin-top:8px">QR — для примера. Поменяй адреса в DATA.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="view" id="view-contact">
+      <section>
+        <div class="container">
+          <h2 class="section-title">Контакты</h2>
+          <p class="section-sub">Пиши по сотрудничеству, идеям, багам. Быстро отвечаю.</p>
+
+          <div class="contact-grid">
+            <div class="card" style="padding:16px">
+              <form class="form" id="contactForm">
+                <input class="input" type="text" name="name" placeholder="Имя" required />
+                <input class="input" type="email" name="email" placeholder="Email" required />
+                <textarea class="input" name="msg" placeholder="Сообщение" required></textarea>
+                <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+                  <button class="btn-primary" type="submit">Отправить</button>
+                  <a class="btn" id="mailtoLink" href="#" rel="noopener">Или открыть в почте</a>
+                </div>
+                <small style="color:#cbb6ff">Отправка без бекенда: открою письмо через mailto.</small>
+              </form>
+            </div>
+            <div class="card" style="padding:16px">
+              <h3 style="margin-top:0">Соцсети и ссылки</h3>
+              <div class="stack" id="socialLinks"></div>
+              <div style="margin-top:12px">
+                <span class="badge">Часовой пояс: GMT+3</span>
+                <span class="badge">Обычно онлайн</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     <div class="container foot">
       <div style="display:flex; align-items:center; gap:12px">
         <div class="logo" aria-hidden="true" style="width:28px; height:28px; border-radius:8px"></div>
-        <span>© <span id="year"></span> Motiva</span>
+        <span>© <span id="year"></span> <span id="footTitle">My Purple Hub</span></span>
       </div>
       <div>
-        <a id="releasesLink" target="_blank" rel="noopener">Страница релизов</a>
+        <a id="footReleases" target="_blank" rel="noopener noreferrer">Страница релизов</a>
       </div>
     </div>
   </footer>
 
+  <!-- MODAL -->
+  <div class="overlay" id="modal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="modal-head">
+        <div style="display:flex; align-items:center; gap:10px">
+          <div class="badge">Приложение</div>
+          <b id="mTitle"></b>
+        </div>
+        <button class="close" id="mClose" type="button" aria-label="Закрыть модальное окно">Закрыть</button>
+      </div>
+      <div class="modal-body">
+        <div class="gallery reveal" id="mShots"></div>
+        <p class="section-sub" id="mDesc" style="margin-top:12px"></p>
+        <div class="meta" id="mMeta"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px" id="mActions"></div>
+        <p class="hint" style="color:#cbb6ff; margin-top:10px">Скачивания идут напрямую с GitHub Releases.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti -->
+  <canvas id="confetti" style="position:fixed; inset:0; pointer-events:none; z-index:80"></canvas>
+
   <script>
-    /* ======================== CONFIG ========================
-       Укажи свой репозиторий и имена файлов релизов:
-       Пример: owner/repo = DmitryKulikov/Motiva
-               apkFile    = Motiva-Android.apk
-               winFile    = Motiva-Setup.exe
-    ========================================================= */
-    const ownerRepo = "Kuli21232/app";             // ← ЗАМЕНИ
-    const apkFile   = "app-140.apk";        // ← ЗАМЕНИ
-    const winFile   = "Release.zip";        // ← ЗАМЕНИ
-    /* ====================================================== */
+    /* ======================== DATA ======================== */
+    const SITE = {
+      title: "My Purple Hub",
+      githubUser: "Kuli21232",
+      releasesRepo: "app",
+      social: [
+        {label:"GitHub",  href:"https://github.com/Kuli21232"},
+        {label:"Telegram",href:"https://t.me/your_handle"},
+        {label:"X/Twitter",href:"https://x.com/your_handle"},
+        {label:"YouTube", href:"https://youtube.com/@your_channel"},
+        {label:"Email",   href:"mailto:you@example.com"},
+      ],
+      donate: [
+        {label:"Boosty", href:"https://boosty.to/yourpage"},
+        {label:"Patreon", href:"https://patreon.com/yourpage"},
+        {label:"ЮMoney", href:"https://yoomoney.ru/to/4100XXXXXXXXXX"},
+        {label:"Buy Me a Coffee", href:"https://buymeacoffee.com/yourname"},
+      ],
+      crypto: [
+        {label:"USDT (TRC20)", addr:"TYOURTRC20ADDRESS"},
+        {label:"BTC", addr:"bc1yourbtcaddress"},
+        {label:"ETH (ERC20)", addr:"0xyourethaddress"},
+      ],
+    };
 
-    const baseRelease = `https://github.com/${ownerRepo}/releases/latest`;
-    const urlAPK = `${baseRelease}/download/${apkFile}`;
-    const urlWIN = `${baseRelease}/download/${winFile}`;
+    const APPS = [
+      {
+        id:"motiva",
+        name:"Motiva",
+        tagline:"Трекер целей и фокус-сессий.",
+        rating: 4.9,
+        downloads: 12034,
+        updated: "2025-10-01",
+        tags:["productivity","focus","notes"],
+        platforms:["android","windows"],
+        ownerRepo:"Kuli21232/app",
+        files:{
+          android:"app-140.apk",
+          windows:"Release.zip"
+        },
+        github:"https://github.com/Kuli21232/app",
+        site:"",
+        shots:[null, null, null]
+      },
+      {
+        id:"vio-notes",
+        name:"VioNotes",
+        tagline:"Минималистичные заметки с синхронизацией.",
+        rating: 4.7,
+        downloads: 8421,
+        updated: "2025-09-15",
+        tags:["notes","sync","minimal"],
+        platforms:["web","android"],
+        ownerRepo:"youruser/VioNotes",
+        files:{
+          web:"https://yourdomain.app/vionotes",
+          android:"VioNotes.apk"
+        },
+        github:"https://github.com/youruser/VioNotes",
+        site:"https://yourdomain.app/vionotes",
+        shots:[null, null]
+      },
+      {
+        id:"purple-timer",
+        name:"Purple Timer",
+        tagline:"Таймер + Помодоро с красивыми графиками.",
+        rating: 4.8,
+        downloads: 15010,
+        updated: "2025-08-20",
+        tags:["timer","pomodoro","focus"],
+        platforms:["windows"],
+        ownerRepo:"youruser/PurpleTimer",
+        files:{
+          windows:"PurpleTimer-Setup.exe"
+        },
+        github:"https://github.com/youruser/PurpleTimer",
+        site:"",
+        shots:[null]
+      }
+    ];
 
-    // Проставляем ссылки
-    document.getElementById("dlAndroid").href = urlAPK;
-    document.getElementById("dlWindows").href = urlWIN;
-    document.getElementById("repoLink").href = `https://github.com/${ownerRepo}`;
-    document.getElementById("releasesLink").href = baseRelease;
+    const PORTFOLIO = [
+      {year:"2025", title:"Motiva 1.4", desc:"Мажорное обновление: новые цели, помодоро, улучшенная статистика.", stack:["Android","Windows","TypeScript","Tauri"]},
+      {year:"2024", title:"VioNotes Web", desc:"Web-версия с оффлайн-режимом и синхронизацией.", stack:["PWA","IndexedDB","Service Worker"]},
+      {year:"2023", title:"Open-source вклад", desc:"Pull-requests в популярные проекты UI/UX.", stack:["Open Source","Design Tokens"]},
+    ];
 
-    // Авто-выбор основной кнопки по ОС
+    const REVIEWS = [
+      {name:"Аня", handle:"@anya", text:"Очень чистый интерфейс. Ничего лишнего — только то, что нужно.", stars:5},
+      {name:"Илья", handle:"@ilya", text:"Фокус-сессии и чек-листы реально помогают не расползаться.", stars:5},
+      {name:"Роман", handle:"@roman", text:"Наконец-то нормальные релизы на GitHub без левых загрузчиков.", stars:5},
+      {name:"Маша", handle:"@masha", text:"Анимации кайф. И тема — бомба!", stars:4},
+    ];
+    /* ======================================================= */
+
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+
+    // Populate titles/links
+    $("#siteTitle").textContent = SITE.title;
+    $("#footTitle").textContent = SITE.title;
+    $("#year").textContent = new Date().getFullYear();
+    const releasesBase = SITE.releasesRepo ? `https://github.com/${SITE.githubUser}/${SITE.releasesRepo}/releases/latest` : `https://github.com/${SITE.githubUser}`;
+    $("#footReleases").href = releasesBase;
+    $("#navGithub").href = `https://github.com/${SITE.githubUser}`;
+    $("#navGithubMobile").href = `https://github.com/${SITE.githubUser}`;
+
+    // Mobile nav toggle
+    const navToggle = $("#navToggle");
+    const navPanel = $("#navPanel");
+    function closeNavPanel(){
+      navPanel.classList.remove("open");
+      navToggle.setAttribute("aria-expanded","false");
+      document.body.classList.remove("no-scroll");
+    }
+    navToggle.addEventListener("click", ()=>{
+      const open = navPanel.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      document.body.classList.toggle("no-scroll", open);
+    });
+    navPanel.addEventListener("click", (e)=>{
+      if (e.target.closest("a")) closeNavPanel();
+    });
+    document.addEventListener("keydown", (e)=>{ if (e.key === "Escape") { closeNavPanel(); closeModal(); }});
+
+    // Router
+    const routes = ["home","apps","portfolio","reviews","support","contact"];
+    function setRoute(route){
+      routes.forEach(r=>{
+        const v = $("#view-"+r);
+        const bs = $$(`.tab-btn[data-route="${r}"]`);
+        if (v) v.classList.toggle("active", r===route);
+        bs.forEach(b=>{
+          b.classList.toggle("active", r===route);
+          b.setAttribute("aria-current", r===route ? "page" : "false");
+        });
+      });
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+    function applyRouteFromHash(){
+      const raw = (location.hash.replace("#","") || "home");
+      const r = routes.includes(raw) ? raw : "home";
+      setRoute(r);
+      // Sync both nav bars active state already handled in setRoute
+    }
+    window.addEventListener("hashchange", applyRouteFromHash);
+    applyRouteFromHash();
+    $$(".tab-btn[data-route]").forEach(btn=>{
+      btn.addEventListener("click", ()=> location.hash = btn.dataset.route);
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+    }, {threshold: .18});
+    $$(".reveal").forEach(el => io.observe(el));
+
+    // Scroll progress bar
+    const progressBar = $("#progressBar");
+    function updateProgress(){
+      const h = document.documentElement;
+      const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight + 0.0001);
+      progressBar.style.transform = `scaleX(${Math.max(0, Math.min(1, scrolled))})`;
+    }
+    document.addEventListener("scroll", updateProgress, {passive:true});
+    updateProgress();
+
+    // Counters
+    function animateCount(el, to, dur=1200){
+      const start = performance.now(); const from = 0;
+      function tick(t){
+        const p = Math.min(1, (t-start)/dur);
+        const val = Math.floor(from + (to-from)*p);
+        el.textContent = val.toLocaleString("ru-RU");
+        if (p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    const totalDownloads = APPS.reduce((s,a)=>s+(a.downloads||0),0);
+    const totalProjects = APPS.length + PORTFOLIO.length;
+    const approxStars = Math.floor(totalProjects*20 + totalDownloads/500);
+    animateCount($("#kpiDownloads"), totalDownloads);
+    animateCount($("#kpiProjects"), totalProjects);
+    animateCount($("#kpiStars"), approxStars);
+
+    // OS detect (better defaults incl. iOS/macOS -> web)
     function detectOS(){
       const ua = navigator.userAgent.toLowerCase();
       if (/android/.test(ua)) return "android";
       if (/windows nt/.test(ua)) return "windows";
-      return "windows"; // дефолт — ПК
+      if (/iphone|ipad|ipod|macintosh/.test(ua)) return "web";
+      return "web";
     }
-    const os = detectOS();
-    const cta = document.getElementById("ctaPrimary");
-    const ctaLabel = document.getElementById("ctaPrimaryLabel");
-    if (os === "android"){ cta.href = urlAPK; ctaLabel.textContent = "Скачать для Android (APK)"; }
-    else { cta.href = urlWIN; ctaLabel.textContent = "Скачать для Windows"; }
+    const userOS = detectOS();
 
-    // Reveal on scroll (микро-анимации без библиотек)
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
-    }, {threshold: .18});
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    // Build release URL
+    function buildReleaseURL(ownerRepo, file){
+      if (!file) return null;
+      if (/^https?:\/\//.test(file)) return file;
+      return `https://github.com/${ownerRepo}/releases/latest/download/${file}`;
+    }
+    function bestOSForApp(app){
+      if (app.platforms.includes(userOS)) return userOS;
+      return app.platforms[0];
+    }
 
-    // Год в футере
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // Render apps
+    const appsGrid = $("#appsGrid");
+    let currentOS = "all";
+    let searchQuery = "";
+    let sortBy = "popular";
+
+    function cardStars(rating){
+      const full = Math.floor(rating);
+      const half = rating - full >= 0.5;
+      let s = "";
+      for(let i=0;i<full;i++) s+="★";
+      if (half) s+="☆";
+      return s.padEnd(5,"☆");
+    }
+
+    function appCard(app){
+      const os = bestOSForApp(app);
+      const dlURL = buildReleaseURL(app.ownerRepo, app.files[os]);
+      const osLabel = os === "android" ? "Android · APK" : os === "windows" ? "Windows" : "Web";
+      const tagHtml = app.tags.slice(0,3).map(t=>`<span class="badge">${t}</span>`).join("");
+      return `
+        <div class="app-card tilt mouse-shine" data-id="${app.id}" tabindex="0" role="button" aria-label="Подробнее о ${app.name}">
+          <div class="app-thumb"><span>${app.name}</span></div>
+          <div class="app-body">
+            <div class="app-title">
+              <b>${app.name}</b>
+              <span class="rating" title="${app.rating} из 5">${cardStars(app.rating)}</span>
+            </div>
+            <div class="downloads-mini">Скачивания: ${app.downloads.toLocaleString("ru-RU")} · Обновлено: ${app.updated}</div>
+            <div class="tags" style="margin-top:8px">${tagHtml}</div>
+            <div class="app-actions">
+              ${dlURL ? `<a class="btn btn-solid ripple" href="${dlURL}" download>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Скачать (${osLabel})
+              </a>` : ``}
+              <a class="btn ripple more-btn" data-id="${app.id}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 12h16M12 4v16" stroke="#eaddff" stroke-width="2" stroke-linecap="round"/></svg>
+                Подробнее
+              </a>
+            </div>
+          </div>
+          <div class="shine"></div>
+        </div>
+      `;
+    }
+
+    function applyFilters(list){
+      let arr = list.slice();
+      if (currentOS !== "all") arr = arr.filter(a => a.platforms.includes(currentOS));
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        arr = arr.filter(a =>
+          a.name.toLowerCase().includes(q) ||
+          a.tagline.toLowerCase().includes(q) ||
+          a.tags.join(" ").toLowerCase().includes(q)
+        );
+      }
+      switch (sortBy){
+        case "popular": arr.sort((a,b)=> (b.downloads||0)-(a.downloads||0)); break;
+        case "new": arr.sort((a,b)=> new Date(b.updated)-new Date(a.updated)); break;
+        case "rating": arr.sort((a,b)=> (b.rating||0)-(a.rating||0)); break;
+        case "name": arr.sort((a,b)=> a.name.localeCompare(b.name,"ru")); break;
+      }
+      return arr;
+    }
+
+    function renderApps(){
+      const arr = applyFilters(APPS);
+      appsGrid.innerHTML = arr.map(appCard).join("");
+      bindAppCardEvents();
+      if (!prefersReducedMotion()) {
+        addTilt($$(".tilt"));
+      }
+      addMouseShine($$(".mouse-shine"));
+      addRipple($$(".ripple, .btn-primary, .btn, .tab-btn, .chip, .copy"));
+    }
+
+    // Toolbar events
+    $("#appSearch").addEventListener("input", e=>{ searchQuery = e.target.value; renderApps(); });
+    $$("#osChips .chip").forEach(ch=>{
+      ch.addEventListener("click", ()=>{
+        $$("#osChips .chip").forEach(c=>{ c.classList.remove("active"); c.setAttribute("aria-selected","false"); });
+        ch.classList.add("active");
+        ch.setAttribute("aria-selected","true");
+        currentOS = ch.dataset.os;
+        renderApps();
+      }, {passive:true});
+    });
+    const defaultChip = $(`#osChips .chip[data-os="${userOS}"]`) || $(`#osChips .chip[data-os="all"]`);
+    defaultChip.classList.add("active");
+    defaultChip.setAttribute("aria-selected","true");
+    $("#sortSelect").addEventListener("change", e=>{ sortBy = e.target.value; renderApps(); });
+
+    renderApps();
+
+    // Modal
+    const modal = $("#modal");
+    const mTitle = $("#mTitle");
+    const mShots = $("#mShots");
+    const mDesc = $("#mDesc");
+    const mMeta = $("#mMeta");
+    const mActions = $("#mActions");
+    const mClose = $("#mClose");
+
+    function openModal(appId){
+      const app = APPS.find(a=>a.id===appId);
+      if (!app) return;
+      mTitle.textContent = app.name;
+      mDesc.textContent = app.tagline;
+      mShots.innerHTML = app.shots.map(()=>`<div class="shot reveal"></div>`).join("");
+      mMeta.innerHTML = `
+        <span class="pill">Платформы: ${app.platforms.join(", ")}</span>
+        <span class="pill">Рейтинг: ${app.rating}</span>
+        <span class="pill">Скачивания: ${app.downloads.toLocaleString("ru-RU")}</span>
+        <span class="pill">Обновлено: ${app.updated}</span>
+        ${app.tags.map(t=>`<span class="badge">${t}</span>`).join("")}
+      `;
+      const primaryOS = bestOSForApp(app);
+      const primaryURL = buildReleaseURL(app.ownerRepo, app.files[primaryOS]);
+      mActions.innerHTML = `
+        ${primaryURL ? `<a class="btn btn-solid ripple" href="${primaryURL}" download>Скачать (${primaryOS})</a>` : ``}
+        ${app.platforms.filter(p=>p!==primaryOS).map(p=>{
+          const u = buildReleaseURL(app.ownerRepo, app.files[p]);
+          return u ? `<a class="btn ripple" href="${u}" download>Скачать (${p})</a>` : ``;
+        }).join("")}
+        ${app.github ? `<a class="btn ripple" target="_blank" rel="noopener" href="${app.github}">GitHub</a>`:``}
+        ${app.site ? `<a class="btn ripple" target="_blank" rel="noopener" href="${app.site}">Сайт</a>`:``}
+      `;
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden","false");
+      document.body.classList.add("no-scroll");
+      $$(".reveal", mShots).forEach(el=> io.observe(el));
+      mClose.focus();
+    }
+    function closeModal(){
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden","true");
+      document.body.classList.remove("no-scroll");
+    }
+    mClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e)=>{ if (e.target === modal) closeModal(); });
+
+    function bindAppCardEvents(){
+      $$(".more-btn").forEach(btn=>{
+        btn.addEventListener("click", ()=> openModal(btn.dataset.id));
+      });
+      $$(".app-card").forEach(card=>{
+        card.addEventListener("click", (e)=>{
+          if (e.target.closest("a")) return;
+          openModal(card.dataset.id);
+        });
+        card.addEventListener("keydown", (e)=>{
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(card.dataset.id); }
+        });
+      });
+    }
+
+    // Portfolio
+    const pf = $("#portfolioList");
+    pf.innerHTML = PORTFOLIO.map(i=>`
+      <div class="tl-item reveal mouse-shine">
+        <div class="tl-card">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:10px">
+            <b>${i.title}</b>
+            <span class="badge">${i.year}</span>
+          </div>
+          <p style="margin:.4em 0; color:#d9caff">${i.desc}</p>
+          <div class="stack">${i.stack.map(s=>`<span class="pill">${s}</span>`).join("")}</div>
+        </div>
+        <div class="shine"></div>
+      </div>
+    `).join("");
+    $$(".tl-item.reveal").forEach(el=> io.observe(el));
+    addMouseShine($$(".mouse-shine"));
+
+    // Reviews
+    const reviewsTrack = $("#reviewsTrack");
+    function stars(n){ return '<span class="rating">'+ '★'.repeat(n) + '☆'.repeat(5-n) + '</span>'; }
+    reviewsTrack.innerHTML = REVIEWS.map(r=>`
+      <div class="review reveal tilt">
+        <div class="who">
+          <div class="avatar"></div>
+          <div><b>${r.name}</b><div style="color:#cbb6ff">${r.handle}</div></div>
+        </div>
+        <div style="margin-bottom:8px">${stars(r.stars)}</div>
+        <p style="margin:0; color:#e7dcff">${r.text}</p>
+      </div>
+    `).join("");
+    $$(".review.reveal").forEach(el=> io.observe(el));
+    if (!prefersReducedMotion()) addTilt($$(".review.tilt"));
+
+    // Donate
+    const donationLinks = $("#donationLinks");
+    donationLinks.innerHTML = SITE.donate.map(d=>`<a class="btn ripple" target="_blank" rel="noopener" href="${d.href}">${d.label}</a>`).join("");
+    const cryptoList = $("#cryptoList");
+    cryptoList.innerHTML = SITE.crypto.map(c=>`
+      <div class="copy ripple" data-addr="${c.addr}" data-label="${c.label}">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#a78bfa" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg>
+        <span>${c.label}: <b>${c.addr}</b></span>
+      </div>
+    `).join("");
+
+    // QR demo gradient follow
+    const qr = $("#qrBox");
+    qr.title = "Помести сюда курсор";
+    qr.addEventListener("mousemove", (e)=>{
+      const r = qr.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      qr.style.background = `
+        radial-gradient(90px 45px at ${x}px ${y}px, rgba(255,255,255,.35), transparent 43%),
+        linear-gradient(135deg, #352563, #1a1330 45%, #2c1a55)
+      `;
+    });
+
+    // Copy handlers
+    $$("#cryptoList .copy").forEach(el=>{
+      el.addEventListener("click", async ()=>{
+        const addr = el.dataset.addr; const label = el.dataset.label;
+        try{
+          await navigator.clipboard.writeText(addr);
+          el.style.borderColor = "rgba(167,139,250,.7)";
+          el.innerHTML = `✔️ Скопировано ${label}: <b>${addr}</b>`;
+          setTimeout(()=>{ el.style.borderColor = "var(--border)"; el.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#a78bfa" d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1Zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H8V7h11v14Z"/></svg>
+            <span>${label}: <b>${addr}</b></span>`; }, 1500);
+        }catch(e){ alert("Не удалось скопировать"); }
+      });
+    });
+
+    // Contact
+    const form = $("#contactForm");
+    const mailto = $("#mailtoLink");
+    function updateMailto(){
+      const data = new FormData(form);
+      const name = data.get("name")||"";
+      const email = data.get("email")||"";
+      const msg = data.get("msg")||"";
+      const subject = encodeURIComponent(`Сообщение с сайта от ${name}`);
+      const body = encodeURIComponent(`Имя: ${name}\nEmail: ${email}\n\n${msg}`);
+      mailto.href = `mailto:you@example.com?subject=${subject}&body=${body}`;
+    }
+    form.addEventListener("input", updateMailto);
+    form.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      updateMailto();
+      mailto.click();
+    });
+    // Social links
+    const sWrap = $("#socialLinks");
+    sWrap.innerHTML = SITE.social.map(s=>`<a class="pill" target="_blank" rel="noopener" href="${s.href}">${s.label}</a>`).join("");
+
+    // Magnetic hover (subtle)
+    function magnetic(el, strength=20){
+      el.addEventListener("mousemove", (e)=>{
+        const r = el.getBoundingClientRect();
+        const relX = e.clientX - r.left - r.width/2;
+        const relY = e.clientY - r.top - r.height/2;
+        el.style.transform = `translate(${relX/strength}px, ${relY/strength}px)`;
+      });
+      el.addEventListener("mouseleave", ()=> el.style.transform = "");
+    }
+    $$(".mag").forEach(el=> magnetic(el));
+
+    // Tilt effect (disabled on reduced motion or coarse pointers)
+    function prefersReducedMotion(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+    function isCoarse(){ return window.matchMedia('(pointer: coarse)').matches; }
+    function addTilt(nodes){
+      if (prefersReducedMotion() || isCoarse()) return;
+      nodes.forEach(el=>{
+        el.addEventListener("mousemove", (e)=>{
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - r.left)/r.width;
+          const y = (e.clientY - r.top)/r.height;
+          const rx = (0.5 - y) * 6;
+          const ry = (x - 0.5) * 6;
+          el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-2px)`;
+        });
+        el.addEventListener("mouseleave", ()=> el.style.transform = "");
+      });
+    }
+
+    // Mouse shine for cards/feats
+    function addMouseShine(nodes){
+      nodes.forEach(el=>{
+        const shine = el.querySelector('.shine');
+        if (!shine) return;
+        el.addEventListener('mousemove', (e)=>{
+          const r = el.getBoundingClientRect();
+          const x = e.clientX - r.left;
+          const y = e.clientY - r.top;
+          shine.style.setProperty('--mx', x+'px');
+          shine.style.setProperty('--my', y+'px');
+        });
+      });
+    }
+
+    // Ripple on clicks
+    function addRipple(nodes){
+      nodes.forEach(el=>{
+        el.addEventListener('click', function(e){
+          const rect = this.getBoundingClientRect();
+          const circle = document.createElement('span');
+          const d = Math.max(rect.width, rect.height);
+          circle.style.width = circle.style.height = d + 'px';
+          circle.style.position = 'absolute';
+          circle.style.left = (e.clientX - rect.left - d/2) + 'px';
+          circle.style.top = (e.clientY - rect.top - d/2) + 'px';
+          circle.style.background = 'radial-gradient(circle, rgba(255,255,255,.35) 10%, rgba(255,255,255,0) 60%)';
+          circle.style.borderRadius = '50%';
+          circle.style.pointerEvents = 'none';
+          circle.style.transform = 'scale(0)';
+          circle.style.opacity = '0.7';
+          circle.style.transition = 'transform .45s ease, opacity .6s ease';
+          this.appendChild(circle);
+          requestAnimationFrame(()=>{ circle.style.transform='scale(1.8)'; circle.style.opacity='0'; });
+          setTimeout(()=> circle.remove(), 600);
+        });
+      });
+    }
+    // Attach initial ripple targets
+    addRipple($$(".ripple, .btn-primary, .btn, .tab-btn, .chip, .copy"));
+
+    // Parallax on hero mock and blobs
+    const heroMock = $("#heroMock");
+    function parallax(){
+      const y = window.scrollY || document.documentElement.scrollTop;
+      const damp = Math.min(1, y/600);
+      heroMock.style.transform = `translateY(${damp * -8}px)`;
+    }
+    document.addEventListener("scroll", parallax, {passive:true});
+
+    // Confetti
+    const canvas = $("#confetti");
+    const ctx = canvas.getContext("2d");
+    let confettiItems=[];
+    let DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    function resizeCanvas(){
+      canvas.width = innerWidth * DPR;
+      canvas.height = innerHeight * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    function shootConfetti(){
+      const colors = ["#a78bfa","#8b5cf6","#6d28d9","#c4b5fd","#7c3aed","#b794f4"];
+      for(let i=0;i<140;i++){
+        confettiItems.push({
+          x: Math.random()*innerWidth,
+          y: -10,
+          vx: (Math.random()-0.5)*3,
+          vy: Math.random()*3+2,
+          g: .06 + Math.random()*.04,
+          s: Math.random()*6+4,
+          c: colors[(Math.random()*colors.length)|0],
+          a: 1,
+          r: Math.random()*360
+        });
+      }
+    }
+    function confettiLoop(){
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      confettiItems.forEach(p=>{
+        p.vy += p.g; p.x += p.vx; p.y += p.vy; p.r += 6; p.a -= .006;
+        ctx.save();
+        ctx.globalAlpha = Math.max(p.a,0);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r*Math.PI/180);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.s/2, -p.s/2, p.s, p.s);
+        ctx.restore();
+      });
+      confettiItems = confettiItems.filter(p=> p.a>0 && p.y<innerHeight+40);
+      requestAnimationFrame(confettiLoop);
+    }
+    confettiLoop();
+    $("#btnThanks").addEventListener("click", shootConfetti);
+
+    // Default view reveals
+    $$(".reveal").forEach(el => io.observe(el));
   </script>
+
+  <style>
+    /* Prevent body scroll when overlays open */
+    .no-scroll{overflow:hidden}
+  </style>
 </body>
 </html>
